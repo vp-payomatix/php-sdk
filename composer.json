@@ -1,0 +1,35 @@
+{
+  "name": "payagency/api",
+  "description": "PHP SDK for PayAgency payment processing API",
+  "type": "library",
+  "keywords": [
+    "payment",
+    "api",
+    "payagency",
+    "sdk",
+    "php"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.4",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PayAgency\\": "src/PayAgency/"
+    },
+    "files": [
+      "src/PayAgency/PayAgency.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PayAgency\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
