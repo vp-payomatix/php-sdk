@@ -43,14 +43,14 @@ use PayAgency\{PayAgencyApi, PayAgencyClientOptions};
 $payAgency = new PayAgencyApi(new PayAgencyClientOptions(
     "89ca59fb3b49ada55851021df12cfbc5", // 32-character encryption key
     "PA_TEST_your-secret-key", // or PA_LIVE_ for production
-    // baseUrl is optional - defaults to https://api.pay.agency
+    // baseUrl is optional - defaults to https://backend.pay.agency
 ));
 
 // Or with custom base URL
 $payAgency = new PayAgencyApi(new PayAgencyClientOptions(
     "89ca59fb3b49ada55851021df12cfbc5",
     "PA_TEST_your-secret-key",
-    "https://api.pay.agency"
+    "https://CUSTOM_SUB_DOMAIN.pay.agency"
 ));
 
 // Make a payment
