@@ -2,8 +2,7 @@
 
 namespace PayAgency\Apis;
 
-use PayAgency\lib\ApiClient;
-use GuzzleHttp\Exception\GuzzleException;
+use PayAgency\Apis\BaseApi;
 
 /**
  * The Payout class handles all payout-related API calls.
@@ -11,32 +10,6 @@ use GuzzleHttp\Exception\GuzzleException;
  */
 class Payout extends BaseApi
 {
-
-    /** @var array Test wallets data for demo purposes */
-    private $testWallets = [
-        [
-            'id' => 'wallet_test_1',
-            'name' => 'Test Wallet 1',
-            'currency' => 'GBP',
-            'balance' => 1000.00,
-            'status' => 'active'
-        ],
-        [
-            'id' => 'wallet_test_2', 
-            'name' => 'Test Wallet 2',
-            'currency' => 'USD',
-            'balance' => 500.00,
-            'status' => 'active'
-        ]
-    ];
-
-    /** @var array Test estimate payout response for demo purposes */
-    private $testEstimatePayoutResponse = [
-        'estimated_fee' => 2.50,
-        'currency' => 'GBP',
-        'processing_time' => '1-3 business days',
-        'exchange_rate' => 1.0
-    ];
 
 
 
@@ -80,13 +53,12 @@ class Payout extends BaseApi
      */
     public function payout(array $data): array
     {
-        $endpoint = $this->getEndpoint('payout');
-        
         try {
-            $response = $this->apiClient->post($endpoint, $data);
+            $endpoint = $this->getEndpoint('payout');
+            $response = $this->apiClient->request('POST', $endpoint, ['json' => $data]);
             return $response;
-        } catch (GuzzleException $e) {
-            $this->handleError($e, "Create payout");
+        } catch (\Exception $e) {
+            return $this->handleError($e, "Create payout");
         }
     }
 
@@ -110,19 +82,31 @@ class Payout extends BaseApi
     public function get_wallets(): array
     {
         try {
-            $endpoint = $this->getEndpoint('wallets');
-            
-            // Return test data for test environment
+            // Return mock data for test environment
             if ($this->env === 'test') {
                 return [
-                    'data' => $this->testWallets
+                    [
+                        'wallet_id' => 'WAL1234567890',
+                        'currency' => 'USD',
+                        'amount' => 10000,
+                        'payment_method' => 'card',
+                        'status' => 'Active'
+                    ],
+                    [
+                        'wallet_id' => 'WAL9876543210',
+                        'currency' => 'EUR',
+                        'amount' => 5000,
+                        'payment_method' => 'card',
+                        'status' => 'Inactive'
+                    ]
                 ];
             }
             
-            $response = $this->apiClient->get($endpoint);
+            $endpoint = $this->getEndpoint('wallets');
+            $response = $this->apiClient->request('GET', $endpoint);
             return $response;
-        } catch (GuzzleException $e) {
-            $this->handleError($e, "Fetch wallets");
+        } catch (\Exception $e) {
+            return $this->handleError($e, "Fetch wallets");
         }
     }
 
@@ -138,17 +122,22 @@ class Payout extends BaseApi
     public function estimate_fee(array $payload): array
     {
         try {
-            $endpoint = $this->getEndpoint('estimate_fee');
-            
-            // Return test data for test environment
+            // Return mock data for test environment
             if ($this->env === 'test') {
-                return $this->testEstimatePayoutResponse;
+                return [
+                    'data' => [
+                        'amount_requried' => 211.5,
+                        'wallet_balance' => 1000,
+                        'total_fee' => 11.5
+                    ]
+                ];
             }
             
-            $response = $this->apiClient->post($endpoint, $payload);
+            $endpoint = $this->getEndpoint('estimate_fee');
+            $response = $this->apiClient->request('POST', $endpoint, ['json' => $payload]);
             return $response;
-        } catch (GuzzleException $e) {
-            $this->handleError($e, "Estimate payout fee");
+        } catch (\Exception $e) {
+            return $this->handleError($e, "Estimate payout fee");
         }
     }
 
@@ -164,11 +153,10 @@ class Payout extends BaseApi
     {
         try {
             $endpoint = sprintf($this->getEndpoint('payout_status'), $referenceId);
-            
-            $response = $this->apiClient->get($endpoint);
+            $response = $this->apiClient->request('GET', $endpoint);
             return $response;
-        } catch (GuzzleException $e) {
-            $this->handleError($e, "Fetch payout status");
+        } catch (\Exception $e) {
+            return $this->handleError($e, "Fetch payout status");
         }
     }
 

@@ -11,12 +11,16 @@ require_once __DIR__ . '/Apis/Payment.php';
 require_once __DIR__ . '/Apis/Payout.php';
 require_once __DIR__ . '/Apis/PaymentLink.php';
 require_once __DIR__ . '/Apis/TXN.php';
+require_once __DIR__ . '/Apis/Refund.php';
+require_once __DIR__ . '/Apis/Crypto.php';
 
 use PayAgency\lib\ApiClient;
 use PayAgency\Apis\Payment;
 use PayAgency\Apis\Payout;
 use PayAgency\Apis\PaymentLink;
 use PayAgency\Apis\TXN;
+use PayAgency\Apis\Refund;
+use PayAgency\Apis\Crypto;
 
 /**
  * Configuration options for the PayAgency API client
@@ -54,6 +58,8 @@ class PayAgencyApi
     private Payout $payoutInstance;
     private PaymentLink $paymentLinkInstance;
     private TXN $txnInstance;
+    private Refund $refundInstance;
+    private Crypto $cryptoInstance;
 
     /**
      * Helper method to create API module instances.
@@ -79,6 +85,8 @@ class PayAgencyApi
         $this->payoutInstance = $this->createApi(Payout::class);
         $this->paymentLinkInstance = $this->createApi(PaymentLink::class);
         $this->txnInstance = $this->createApi(TXN::class);
+        $this->refundInstance = $this->createApi(Refund::class);
+        $this->cryptoInstance = $this->createApi(Crypto::class);
     }
 
     /**
@@ -106,5 +114,32 @@ class PayAgencyApi
     public function getPaymentLink(): PaymentLink
     {
         return $this->paymentLinkInstance;
+    }
+
+    /**
+     * Get the TXN API module instance.
+     * @return TXN
+     */
+    public function getTXN(): TXN
+    {
+        return $this->txnInstance;
+    }
+
+    /**
+     * Get the Refund API module instance.
+     * @return Refund
+     */
+    public function getRefund(): Refund
+    {
+        return $this->refundInstance;
+    }
+
+    /**
+     * Get the Crypto API module instance.
+     * @return Crypto
+     */
+    public function getCrypto(): Crypto
+    {
+        return $this->cryptoInstance;
     }
 }

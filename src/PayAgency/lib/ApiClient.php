@@ -43,11 +43,21 @@ class ApiClient
     public function request(string $method, string $uri, array $options = [])
     {
         try {
-            if (isset($options['json']) && ($options['params']['Skip-Encryption'] ?? 'false') !== 'true') {
+            // Check if encryption should be skipped (support both formats)
+            $skipEncryption = ($options['params']['Skip-Encryption'] ?? 'false') === 'true' || 
+                            ($options['skip_encryption'] ?? false) === true;
+
+            if (isset($options['json']) && !$skipEncryption) {
                 // Encrypt the request payload
                 $options['json'] = [
                     'payload' => $this->encryptData(json_encode($options['json'], JSON_THROW_ON_ERROR)),
                 ];
+            }
+
+            // If skip_encryption was used, add it as a query parameter for the API
+            if ($options['skip_encryption'] ?? false) {
+                $options['query']['Skip-Encryption'] = 'true';
+                unset($options['skip_encryption']); // Remove from options to avoid conflicts
             }
 
             $response = $this->httpClient->request($method, $uri, $options);

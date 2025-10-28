@@ -30,11 +30,11 @@ abstract class BaseApi
      * Common error handler to log and re-throw exceptions.
      * Mimics the console.error logic in the TypeScript code.
      *
-     * @param GuzzleException $e The exception caught.
+     * @param \Exception $e The exception caught.
      * @param string $operation A descriptive name for the operation.
-     * @throws GuzzleException
+     * @throws \Exception
      */
-    protected function handleError(GuzzleException $e, string $operation): void
+    protected function handleError(\Exception $e, string $operation): void
     {
         $errorMessage = $e->getMessage();
 
