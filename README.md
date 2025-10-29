@@ -784,7 +784,7 @@ The SDK supports both test and live environments:
 
 ### Important Notes
 
-- **Payment amounts**: Use actual currency amounts (e.g., 1.00 for $1.00 or £1.00)
+- **Payment amounts**: Use actual currency amounts (e.g., 1 for $1.00 or £1.00)
 - **Crypto amounts**: For crypto, use string format for precise decimal values (e.g., "0.01" for Bitcoin)
 - **Country codes**: Use ISO 3166-1 alpha-2 country codes (e.g., "GB", "US")
 - **Currency codes**: Use ISO 4217 currency codes (e.g., "USD", "GBP", "EUR")
