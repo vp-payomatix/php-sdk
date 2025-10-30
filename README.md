@@ -85,7 +85,7 @@ $payment = $payAgency->getPayment()->S2S([
 | --------------- | ------ | -------- | ------------------------------------------------------------- |
 | `encryptionKey` | string | Yes      | 32-character encryption key for payload encryption            |
 | `secretKey`     | string | Yes      | Your API secret key (PA_TEST for test, PA_LIVE for live)      |
-| `baseUrl`       | string | No       | PayAgency API base URL (defaults to `https://api.pay.agency`) |
+| `baseUrl`       | string | No       | PayAgency API base URL (defaults to `https://backend.pay.agency`) |
 
 ### Environment Detection
 
